@@ -1,8 +1,8 @@
-// APPJSX
-
 import React, { useEffect, useState } from 'react';
 import PostList from './components/PostList.jsx';
 import PostForm from './components/PostForm.jsx';
+
+const API_BASE_URL = 'https://post-api-r9bw.onrender.com';
 
 export default function App() {
   const [posts, setPosts] = useState([]);
@@ -14,7 +14,8 @@ export default function App() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/posts');
+      // Use the full URL
+      const res = await fetch(`${API_BASE_URL}/api/posts`);
       if (!res.ok) throw new Error('Failed to fetch posts');
       const data = await res.json();
       // Sort newest first
@@ -32,7 +33,8 @@ export default function App() {
   }, []);
 
   const handleCreate = async (post) => {
-    const res = await fetch('/api/posts', {
+    // Use the full URL
+    const res = await fetch(`${API_BASE_URL}/api/posts`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(post)
@@ -46,7 +48,8 @@ export default function App() {
   };
 
   const handleUpdate = async (id, updates) => {
-    const res = await fetch(`/api/posts/${id}`, {
+    // Use the full URL
+    const res = await fetch(`${API_BASE_URL}/api/posts/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(updates)
@@ -59,7 +62,8 @@ export default function App() {
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this post?')) return;
-    const res = await fetch(`/api/posts/${id}`, { method: 'DELETE' });
+    // Use the full URL
+    const res = await fetch(`${API_BASE_URL}/api/posts/${id}`, { method: 'DELETE' });
     if (!res.ok) {
       alert('Failed to delete');
       return;
